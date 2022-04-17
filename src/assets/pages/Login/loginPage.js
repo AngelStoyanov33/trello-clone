@@ -6,12 +6,22 @@ import TextField from "@mui/material/TextField";
 import { appTheme } from "../../themes/appThemes.js";
 import {ThemeProvider } from "@mui/material/styles";
 import { animations } from "react-animation";
+import uuid from 'react-uuid'
+import {checkIfUserExists, getUserByUsername, saveUserInLocalStorage, checkUserInLocalStorage} from '../../../service/userService.js';
+
 
 function LoginPage(props) {
   const usernameRef = useRef("");
 
   const saveUsername = () => {
-    let user = { userName: usernameRef.current.value };
+    let username = usernameRef.current.value;
+    let user = { userName:username };
+    //TODO:
+    if(!checkIfUserExists(user)){
+      user = { userName:username, userId:uuid()};
+    }else{
+      user = getUserByUsername(username);
+    }
     saveUserInLocalStorage(user);
     if (checkUserInLocalStorage()) {
       props.history.push("/dashboard");
@@ -52,18 +62,6 @@ function LoginPage(props) {
     </ThemeProvider>
     
   );
-}
-
-function saveUserInLocalStorage(user) {
-  localStorage.setItem("user", JSON.stringify(user));
-}
-
-function getUserFromLocalStorage() {
-  return JSON.parse(localStorage.getItem("user"));
-}
-
-function checkUserInLocalStorage() {
-  return getUserFromLocalStorage() !== null;
 }
 
 export default LoginPage;

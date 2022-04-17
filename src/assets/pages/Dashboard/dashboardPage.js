@@ -3,6 +3,7 @@ import "./dashboardPage.css";
 import { appTheme } from "../../themes/appThemes.js";
 import {ThemeProvider } from "@mui/material/styles";
 import { Button } from "@mui/material";
+import { logoutCurrentUser } from "../../../service/userService.js";
 
 function DashboardPage(props) {
   return (
@@ -16,9 +17,11 @@ function DashboardPage(props) {
 }
 
 function logoutUser(props){
-  localStorage.removeItem("user");
+  logoutCurrentUser();
   props.history.push("/");
 }
+
+
 
 export default DashboardPage;
 

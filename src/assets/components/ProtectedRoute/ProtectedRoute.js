@@ -1,5 +1,6 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
+import { getUserFromLocalStorage, checkUserInLocalStorage } from "../../../service/userService.js";
 
 function ProtectedRoute(props, component, ...rest) {
   let protRoute = <Route {...props} render={component} />;
@@ -11,14 +12,6 @@ function ProtectedRoute(props, component, ...rest) {
   } else {
     return redirect;
   }
-}
-
-function getUserFromLocalStorage() {
-  return JSON.parse(localStorage.getItem("user"));
-}
-
-function checkUserInLocalStorage() {
-  return getUserFromLocalStorage() !== null;
 }
 
 export default ProtectedRoute;
