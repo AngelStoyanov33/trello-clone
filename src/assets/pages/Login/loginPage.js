@@ -1,8 +1,11 @@
 import "./loginPage.css";
-import logo from "../../../logo.svg";
+import logo from "../../../logo.png";
 import React, { useRef } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
+import { appTheme } from "../../themes/appThemes.js";
+import {ThemeProvider } from "@mui/material/styles";
+import { animations } from "react-animation";
 
 function LoginPage(props) {
   const usernameRef = useRef("");
@@ -16,16 +19,17 @@ function LoginPage(props) {
   };
 
   return (
-    <React.Fragment>
+    <ThemeProvider theme={appTheme}>
+      <React.Fragment>
       {checkUserInLocalStorage() ? props.history.push("/dashboard") : null}
       <header className="App-header">
         <div className="inner">
-          <img src={logo} className="App-logo" alt="logo" />
+          <img src={logo} alt="logo"  style={{ animation: animations.pulse }}/>
           <br />
           <br />
           <h3>Trello-Based Dashboard</h3>
 
-          <div>
+          <div className="outer">
             <TextField
               id="outlined-textarea"
               label="Enter your username"
@@ -45,6 +49,8 @@ function LoginPage(props) {
         </div>
       </header>
     </React.Fragment>
+    </ThemeProvider>
+    
   );
 }
 
