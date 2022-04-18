@@ -30,6 +30,7 @@ function Column(props) {
               content={card.cardName}
               columnId={columnId}
               boardId={boardId}
+              card={card}
             />
           );
         })}
