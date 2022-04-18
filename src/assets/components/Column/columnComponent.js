@@ -2,6 +2,7 @@ import React from "react";
 import { Paper, Typography } from "@mui/material";
 import Card from "../Card/card.js";
 import "./columnComponent.css";
+import InputBox from "../InputBox/inputBox.js";
 
 function ColumnTitle(props) {
   return (
@@ -20,6 +21,7 @@ function Column(props) {
         <Card content="Test" />
         <Card content="Test" />
         <Card content="Test" />
+        <InputBox type="card" />
       </Paper>
     </div>
   );
