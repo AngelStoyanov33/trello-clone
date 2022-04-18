@@ -6,15 +6,19 @@ import TextField from "@mui/material/TextField";
 import { appTheme } from "../../themes/appThemes.js";
 import { ThemeProvider } from "@mui/material/styles";
 import { animations } from "react-animation";
-import uuid from 'react-uuid'
-import { checkIfUserExists, getUserByUsername, saveUserInLocalStorage, checkUserInLocalStorage, generateRandomColor } from '../../../service/userService.js';
-
+import uuid from "react-uuid";
+import {
+  checkIfUserExists,
+  getUserByUsername,
+  saveUserInLocalStorage,
+  checkUserInLocalStorage,
+  generateRandomColor,
+} from "../../../service/userService.js";
 
 function LoginPage(props) {
   const usernameRef = useRef("");
   const textFieldRef = useRef(null);
   const [inputErrorProps, setInputErrorProps] = useState({});
-
 
   const saveUsername = () => {
     setInputErrorProps({});
@@ -27,32 +31,41 @@ function LoginPage(props) {
       if (!username.match(regex2) || username.match(regex1)) {
         setInputErrorProps({
           error: true,
-          helperText: "Username must be between 5 and 16 characters and can only contain letters, numbers, and !@.#*"
+          helperText:
+            "Username must be between 5 and 16 characters and can only contain letters, numbers, and !@.#*",
         });
         return;
       }
-      user = { userName: username, userId: uuid(), userColor: generateRandomColor() };
+      user = {
+        userName: username,
+        userId: uuid(),
+        userColor: generateRandomColor(),
+      };
     } else {
       user = getUserByUsername(username);
     }
 
     saveUserInLocalStorage(user);
-    
+
     if (checkUserInLocalStorage()) {
-      props.history.push("/dashboard");
+      props.history.push("/boards");
     }
   };
 
   return (
     <ThemeProvider theme={appTheme}>
       <React.Fragment>
-        {checkUserInLocalStorage() ? props.history.push("/dashboard") : null}
+        {checkUserInLocalStorage() ? props.history.push("/boards") : null}
         <header className="App-header">
           <div className="inner">
-            <img src={logo} alt="logo" style={{ animation: animations.pulse }} />
+            <img
+              src={logo}
+              alt="logo"
+              style={{ animation: animations.pulse }}
+            />
             <br />
             <h3>Trello-Based Dashboard</h3>
-            <br/>
+            <br />
 
             <div className="outer">
               <TextField
@@ -78,7 +91,6 @@ function LoginPage(props) {
         </header>
       </React.Fragment>
     </ThemeProvider>
-
   );
 }
 
