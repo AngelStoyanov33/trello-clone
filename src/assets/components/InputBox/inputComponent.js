@@ -1,7 +1,13 @@
 import { Button, InputBase, Paper } from "@mui/material";
 import React, { useRef } from "react";
+import {
+  createCard,
+  getAllCardsByColumnId,
+} from "../../../service/cardService";
+import { getUserFromLocalStorage } from "../../../service/userService";
+import moment from "moment";
 
-function InputComponent({ opened, setOpened }, props) {
+function InputComponent({ opened, setOpened, cards, setCards, columnId }) {
   const inputRef = useRef(null);
   return (
     <div>
@@ -15,7 +21,8 @@ function InputComponent({ opened, setOpened }, props) {
         <Button
           onClick={() => {
             setOpened(false);
-            addCard(inputRef);
+            addCard(inputRef, columnId);
+            setCards(getAllCardsByColumnId(columnId));
           }}
         >
           Add
@@ -25,10 +32,18 @@ function InputComponent({ opened, setOpened }, props) {
   );
 }
 
-function addCard(inputRef) {
+function addCard(inputRef, columnId) {
   if (inputRef.current.value !== "") {
-    console.log(inputRef.current.value);
+    let cardTitle = inputRef.current.value;
+    let user = getUserFromLocalStorage();
+    let card = {
+      cardName: cardTitle,
+      columnId: columnId,
+      ownerId: user.userId,
+      creationDate: moment().format("DD-MM-YYYY hh:mm:ss"),
+    };
+    createCard(card);
   }
-  console.log("Add a new card");
+  console.log("Add a new task");
 }
 export default InputComponent;

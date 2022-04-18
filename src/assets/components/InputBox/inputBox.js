@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Modal, Button, Group } from "@mantine/core";
 import InputComponent from "./inputComponent";
 
-function InputBox(props) {
+function InputBox({ cards, setCards, columnId, type }) {
   const [opened, setOpened] = useState(false);
   return (
     <div>
@@ -11,13 +11,19 @@ function InputBox(props) {
         opened={opened}
         closeOnClickOutside={true}
         onClose={() => setOpened(false)}
-        title="Enter the card title"
+        title="Enter the task title"
       >
-        <InputComponent open={opened} setOpened={setOpened} />
+        <InputComponent
+          open={opened}
+          setOpened={setOpened}
+          cards={cards}
+          setCards={setCards}
+          columnId={columnId}
+        />
       </Modal>
       <div onClick={() => setOpened(true)}>
         <Paper>
-          <Typography>Add a new {props.type}</Typography>
+          <Typography>Add a new {type}</Typography>
         </Paper>
       </div>
     </div>
