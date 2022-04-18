@@ -4,11 +4,9 @@ export const createBoard = (board) => {
         boards.push(board);
         localStorage.setItem("boards", JSON.stringify(boards));
     }else{
-        if(!checkIfBoardExists(board)){
-            var boards = JSON.parse(localStorage.getItem("boards"));
-            boards.push(board);
-            localStorage.setItem("boards", JSON.stringify(boards));
-        }
+        var boards = JSON.parse(localStorage.getItem("boards"));
+        boards.push(board);
+        localStorage.setItem("boards", JSON.stringify(boards));
     }
     localStorage.setItem("board", JSON.stringify(board));
 }
@@ -38,6 +36,14 @@ export const getBoardsByUserId = (userId) => {
         }
     }
     return boardsByUserId;
+}
+
+export const getAllBoards = () => {
+    if(localStorage.getItem("boards") == null){
+        return [];
+    }
+    var boards = JSON.parse(localStorage.getItem("boards"));
+    return boards;
 }
 
 export const deleteBoard = (boardId) => {
