@@ -1,7 +1,8 @@
 import React from "react";
 import * as FaMaterialIcons from "react-icons/fa";
 import MonitorIcon from "@mui/icons-material/Monitor";
-import MapIcon from "@mui/icons-material/Map";
+import LogoutIcon from '@mui/icons-material/Logout';
+import WatchLaterIcon from '@mui/icons-material/WatchLater';
 
 export const sidebarData = [
   {
@@ -12,14 +13,14 @@ export const sidebarData = [
   },
   {
     title: "Recents",
-    path: "/dashboard/grafana",
-    icon: <MonitorIcon />,
+    path: "/dashboard/",
+    icon: <WatchLaterIcon />,
     className: "nav-text",
   },
   {
     title: "Logout",
-    path: "/dashboard/map",
-    icon: <MapIcon />,
+    path: "/logout/",
+    icon: <LogoutIcon />,
     className: "nav-text",
   },
 ];

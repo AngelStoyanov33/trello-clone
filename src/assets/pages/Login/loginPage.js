@@ -7,7 +7,7 @@ import { appTheme } from "../../themes/appThemes.js";
 import { ThemeProvider } from "@mui/material/styles";
 import { animations } from "react-animation";
 import uuid from 'react-uuid'
-import { checkIfUserExists, getUserByUsername, saveUserInLocalStorage, checkUserInLocalStorage } from '../../../service/userService.js';
+import { checkIfUserExists, getUserByUsername, saveUserInLocalStorage, checkUserInLocalStorage, generateRandomColor } from '../../../service/userService.js';
 
 
 function LoginPage(props) {
@@ -31,7 +31,7 @@ function LoginPage(props) {
         });
         return;
       }
-      user = { userName: username, userId: uuid() };
+      user = { userName: username, userId: uuid(), userColor: generateRandomColor() };
     } else {
       user = getUserByUsername(username);
     }
@@ -51,8 +51,8 @@ function LoginPage(props) {
           <div className="inner">
             <img src={logo} alt="logo" style={{ animation: animations.pulse }} />
             <br />
-            <br />
             <h3>Trello-Based Dashboard</h3>
+            <br/>
 
             <div className="outer">
               <TextField
@@ -63,6 +63,7 @@ function LoginPage(props) {
                 placeholder="Username..."
                 variant="outlined"
                 inputRef={usernameRef}
+                color="secondary"
               />
               <Button
                 variant="contained"

@@ -50,3 +50,9 @@ export const saveUserInLocalStorage = (user) => {
 export const logoutCurrentUser = () => {
     localStorage.removeItem("user");
 }
+
+export const generateRandomColor = () => {
+    let colors = ["red", "pink", "grape", "violet", "indigo", "blue", "cyan", "teal", "green", "lime", "yellow", "amber", "orange", "brown"];
+    let randomIndex = Math.floor(Math.random() * colors.length);
+    return colors[randomIndex];
+}

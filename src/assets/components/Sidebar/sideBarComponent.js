@@ -16,7 +16,8 @@ import { ThemeProvider } from "@mui/material/styles";
 import { sidebarData } from "./sideBarComponentData";
 import { Link } from "react-router-dom";
 import "./sideBarComponent.css";
-
+import logo from "../../../logo.png";
+import { animations } from "react-animation";
 const drawerWidth = 240;
 
 export const dashboardBoxStyle = {
@@ -43,6 +44,7 @@ function Sidebar(props) {
       }}
     >
       <CssBaseline />
+
       <AppBar
         position="fixed"
         sx={{
@@ -64,7 +66,10 @@ function Sidebar(props) {
         variant="permanent"
         anchor="left"
       >
+        <img src={logo} alt="logo" style={{ animation: animations.pulse }} />
         <Divider />
+
+
         <List>
           {sidebarData.map((item, index) => {
             return (
