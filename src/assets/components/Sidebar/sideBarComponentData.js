@@ -12,7 +12,7 @@ export const sidebarData = [
   },
   {
     title: "Recents",
-    path: "/recent/",
+    path: "/recents/",
     icon: <WatchLaterIcon />,
     className: "nav-text",
   },

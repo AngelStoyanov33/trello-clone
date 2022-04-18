@@ -38,3 +38,15 @@ export const deleteColumn = (columnId) => {
     }
 }
 
+export const getColumnById = (columnId) => {
+    if(localStorage.getItem("columns") == null) {
+        return null;
+    }
+    var columns = JSON.parse(localStorage.getItem("columns"));
+    for(var i = 0; i < columns.length; i++) {
+        if(columns[i].columnId === columnId) {
+            return columns[i];
+        }
+    }
+    return null;
+}

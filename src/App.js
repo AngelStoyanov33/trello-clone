@@ -10,6 +10,7 @@ import DashboardPage from "./assets/pages/Dashboard/dashboardPage.js";
 import ProtectedRoute from "./assets/components/ProtectedRoute/ProtectedRoute";
 import { logoutCurrentUser } from "./service/userService.js";
 import BoardsPage from "./assets/pages/Boards/boardsPage";
+import RecentsPage from "./assets/pages/Recents/recentsPage";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
             component={DashboardPage}
           />
           <ProtectedRoute exact path="/boards" component={BoardsPage} />
+          <ProtectedRoute exact path="/recents" component={RecentsPage} />
         </Switch>
       </Router>
     </div>

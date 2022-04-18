@@ -45,7 +45,7 @@ export const sortCardsByTimestamp = () => {
     if (cards.length <= 10) {
         return cards;
     } else {
-        const sortedDates = cards.sort((cardA, cardB) => cardB.creationDate - cardA.creationDate)
+        const sortedDates = cards.sort((cardA, cardB) => cardA.creationDate - cardB.creationDate)
         return sortedDates.slice(0, 10);
     }
 }
