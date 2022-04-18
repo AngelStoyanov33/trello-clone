@@ -8,12 +8,17 @@ import { getUserFromLocalStorage } from "../../../service/userService";
 import moment from "moment";
 
 function InputComponent({ opened, setOpened, cards, setCards, columnId }) {
-  const inputRef = useRef(null);
+  const titleInputRef = useRef(null);
+  const descriptionInputRef = useRef(null);
   return (
     <div>
       <div>
         <Paper>
-          <InputBase fullWidth multiline inputRef={inputRef} />
+          <h3>Enter task title</h3>
+          <InputBase fullWidth multiline inputRef={titleInputRef} />
+          <br />
+          <h3>Enter task descripion</h3>
+          <InputBase fullWidth multiline inputRef={descriptionInputRef} />
         </Paper>
       </div>
       <br></br>
@@ -21,7 +26,7 @@ function InputComponent({ opened, setOpened, cards, setCards, columnId }) {
         <Button
           onClick={() => {
             setOpened(false);
-            addCard(inputRef, columnId);
+            addCard(titleInputRef, descriptionInputRef, columnId);
             setCards(getAllCardsByColumnId(columnId));
           }}
         >
@@ -32,14 +37,19 @@ function InputComponent({ opened, setOpened, cards, setCards, columnId }) {
   );
 }
 
-function addCard(inputRef, columnId) {
-  if (inputRef.current.value !== "") {
-    let cardTitle = inputRef.current.value;
+function addCard(titleInputRef, descriptionInputRef, columnId) {
+  if (
+    titleInputRef.current.value !== "" &&
+    descriptionInputRef.current.value !== ""
+  ) {
+    let cardTitle = titleInputRef.current.value;
+    let cardDescription = descriptionInputRef.current.value;
     let user = getUserFromLocalStorage();
     let card = {
       cardName: cardTitle,
       columnId: columnId,
       ownerId: user.userId,
+      description: cardDescription,
       creationDate: moment().format("DD-MM-YYYY hh:mm:ss"),
     };
     createCard(card);

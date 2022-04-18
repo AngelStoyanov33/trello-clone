@@ -58,12 +58,12 @@ function BoardsPage() {
       </Modal>
 
       <Modal
-        opened={opened}
+        opened={editOpened}
         closeOnClickOutside={true}
-        onClose={() => setOpened(false)}
+        onClose={() => setEditOpened(false)}
         title="Edit the board title"
       >
-        <AddInputComponent
+        <EditInputComponent
           open={editOpened}
           setOpened={setEditOpened}
           boardsList={boardsList}
@@ -239,7 +239,7 @@ function EditInputComponent({
             setBoardsList(getAllBoards());
           }}
         >
-          Add
+          Edit
         </MUIButton>
       </div>
     </div>
