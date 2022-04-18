@@ -1,9 +1,9 @@
 import React from "react";
 import { Paper, Typography } from "@mui/material";
 import Card from "../Card/card.js";
-import "./board.css";
+import "./columnComponent.css";
 
-function BoardTitle(props) {
+function ColumnTitle(props) {
   return (
     <div>
       <Typography> {props.title} </Typography>
@@ -11,11 +11,11 @@ function BoardTitle(props) {
   );
 }
 
-function Board(props) {
+function Column(props) {
   return (
     <div>
       <Paper variant="main">
-        <BoardTitle title={props.title} />
+        <ColumnTitle title={props.title} />
         <Card content="Test" />
         <Card content="Test" />
         <Card content="Test" />
@@ -25,4 +25,4 @@ function Board(props) {
   );
 }
 
-export default Board;
+export default Column;
