@@ -9,7 +9,20 @@ import {
   getUserFromLocalStorage,
   getUserById,
 } from "../../../service/userService";
-import { getAllBoards, createBoard } from "../../../service/boardService";
+import {
+  getAllBoards,
+  createBoard,
+  deleteBoard,
+  getBoardById,
+} from "../../../service/boardService";
+import {
+  deleteColumn,
+  getAllColumnsByBoardId,
+} from "../../../service/columnService";
+import {
+  deleteCard,
+  getAllCardsByColumnId,
+} from "../../../service/cardService";
 import {
   Card,
   Text,
@@ -23,6 +36,7 @@ import uuid from "react-uuid";
 
 function BoardsPage() {
   const [opened, setOpened] = useState(false);
+  const [editOpened, setEditOpened] = useState(false);
 
   let boards = getAllBoards();
   const [boardsList, setBoardsList] = useState(boards);
@@ -35,10 +49,29 @@ function BoardsPage() {
         onClose={() => setOpened(false)}
         title="Enter the board title"
       >
-        <InputComponent open={opened} setOpened={setOpened} />
+        <AddInputComponent
+          open={opened}
+          setOpened={setOpened}
+          boardsList={boardsList}
+          setBoardsList={setBoardsList}
+        />
+      </Modal>
+
+      <Modal
+        opened={opened}
+        closeOnClickOutside={true}
+        onClose={() => setOpened(false)}
+        title="Edit the board title"
+      >
+        <AddInputComponent
+          open={editOpened}
+          setOpened={setEditOpened}
+          boardsList={boardsList}
+          setBoardsList={setBoardsList}
+        />
       </Modal>
       <div className="boards">
-        <h2>Welcome {getUserFromLocalStorage().userName}</h2>
+        <h2>Welcome, {getUserFromLocalStorage().userName}</h2>
         <div className="bg1">
           {boardsList.map((board) => {
             return (
@@ -47,6 +80,10 @@ function BoardsPage() {
                 authorName={getUserById(board.ownerId).userName}
                 userColor={getUserById(board.ownerId).userColor}
                 boardId={board.boardId}
+                boardsList={boardsList}
+                setBoardsList={setBoardsList}
+                editOpened={editOpened}
+                setEditOpened={setEditOpened}
               />
             );
           })}
@@ -70,10 +107,19 @@ function BoardsPage() {
   );
 }
 
-function BoardsBoardCard(props) {
+function BoardsBoardCard({
+  boardsList,
+  setBoardsList,
+  boardId,
+  userColor,
+  authorName,
+  boardName,
+  editOpened,
+  setEditOpened,
+}) {
   const theme = useMantineTheme();
   return (
-    <Card shadow="sm" p="lg" style={{ margin: "5px" }}>
+    <Card shadow="sm" p="lg" style={{ margin: "5px", width: "350px" }}>
       <Group
         position="apart"
         style={{
@@ -87,32 +133,65 @@ function BoardsBoardCard(props) {
           weight={500}
           style={{
             margin: "0 auto",
+            fontSize: "0.9rem",
+            textAlign: "center",
+            overflowWrap: "break-word",
           }}
         >
-          {props.boardName}
+          {boardName}
         </Text>
-        <br></br>
+
         <Badge
-          color={props.userColor}
+          color={userColor}
           variant="filled"
-          style={{ margin: "0 auto" }}
+          style={{
+            margin: "0 auto",
+          }}
         >
-          {props.authorName}
+          {authorName}
         </Badge>
       </Group>
 
       <Text size="sm" style={{ color: "red", lineHeight: 1.5 }}></Text>
 
-      <Button variant="light" color="red" fullWidth style={{ marginTop: 14 }}>
-        <Link to={"/dashboard/" + props.boardId}>
-          <span>Open Board</span>
+      <Button
+        variant="outline"
+        color="green"
+        fullWidth
+        style={{ marginTop: 14 }}
+      >
+        <Link to={"/dashboard/" + boardId}>
+          <span className="link">Open Board</span>
         </Link>
+      </Button>
+      <Button
+        variant="outline"
+        color="yellow"
+        fullWidth
+        style={{ marginTop: 7 }}
+        onClick={() => {
+          setEditOpened(true);
+        }}
+      >
+        <span>Edit Board</span>
+      </Button>
+      <Button
+        variant="outline"
+        color="red"
+        fullWidth
+        style={{ marginTop: 7 }}
+        onClick={() => {
+          deleteAllBoardElements(boardId);
+          setBoardsList(getAllBoards());
+        }}
+      >
+        <span>Delete Board</span>
       </Button>
     </Card>
   );
 }
 
-function InputComponent({ opened, setOpened }, props) {
+function AddInputComponent({ opened, setOpened, boardsList, setBoardsList }) {
   const inputRef = useRef(null);
   return (
     <div>
@@ -127,6 +206,37 @@ function InputComponent({ opened, setOpened }, props) {
           onClick={() => {
             setOpened(false);
             addNewBoard(inputRef);
+            setBoardsList(getAllBoards());
+          }}
+        >
+          Add
+        </MUIButton>
+      </div>
+    </div>
+  );
+}
+
+function EditInputComponent({
+  editOpened,
+  setEditOpened,
+  boardsList,
+  setBoardsList,
+}) {
+  const inputRef = useRef(null);
+  return (
+    <div>
+      <div>
+        <Paper>
+          <InputBase fullWidth multiline inputRef={inputRef} />
+        </Paper>
+      </div>
+      <br></br>
+      <div>
+        <MUIButton
+          onClick={() => {
+            setEditOpened(false);
+            editBoard(inputRef);
+            setBoardsList(getAllBoards());
           }}
         >
           Add
@@ -146,9 +256,31 @@ function addNewBoard(inputRef) {
       boardId: uuid(),
     };
     createBoard(board);
-    //setBoardsList(getAllBoards());
   }
-  console.log("Add a new board");
+}
+
+function editBoard(inputRef, boardId) {
+  if (inputRef.current.value !== "") {
+    let newBoardTitle = inputRef.current.value;
+    let currentBoard = getBoardById(boardId);
+    currentBoard.boardName = newBoardTitle;
+    createBoard(currentBoard);
+  }
+}
+
+function deleteAllBoardElements(boardId) {
+  let columns = getAllColumnsByBoardId(boardId);
+  let cards = [];
+  columns.forEach((column) => {
+    cards = cards.concat(getAllCardsByColumnId(column.columnId));
+  });
+  cards.forEach((card) => {
+    deleteCard(card.cardId);
+  });
+  columns.forEach((column) => {
+    deleteColumn(column.columnId);
+  });
+  deleteBoard(boardId);
 }
 
 export default BoardsPage;

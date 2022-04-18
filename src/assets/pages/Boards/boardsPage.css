@@ -1,18 +1,43 @@
 .bg1 {
-    font-size: calc(10px + 2vmin);
-    color: white;
-    display: flex;
-    font-weight: 100;
-    font-family: sans-serif;
-    margin: 0 auto;
-  }
+  font-size: calc(10px + 2vmin);
+  color: white;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  font-weight: 100;
+  font-family: sans-serif;
+  margin: 0 auto;
+  max-width: 1440px;
+}
 
 .boards {
-    flex-direction: column;
-    font-size: calc(10px + 2vmin);
-    color: white;
-    display: flex;
-    font-weight: 200;
-    font-family: sans-serif;
-    min-height: 100vh;    
-  }
+  flex-direction: column;
+  font-size: calc(10px + 2vmin);
+  color: white;
+  display: flex;
+  font-weight: 200;
+  font-family: sans-serif;
+  min-height: 100vh;
+  max-width: 1440px;
+}
+
+.link {
+  color: green;
+  text-decoration: none;
+}
+.link:link {
+  color: green;
+  text-decoration: none;
+}
+.link:visited {
+  color: green;
+  text-decoration: none;
+}
+.link:hover {
+  color: green;
+  text-decoration: none;
+}
+.link:active {
+  color: green;
+  text-decoration: none;
+}
