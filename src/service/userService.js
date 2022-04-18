@@ -53,7 +53,7 @@ export const getUserById = (userId) => {
   }
   var users = JSON.parse(localStorage.getItem("users"));
   for (var i = 0; i < users.length; i++) {
-    if (users[i].id === userId) {
+    if (users[i].userId === userId) {
       return users[i];
     }
   }

@@ -8,7 +8,6 @@ export const createBoard = (board) => {
         boards.push(board);
         localStorage.setItem("boards", JSON.stringify(boards));
     }
-    localStorage.setItem("board", JSON.stringify(board));
 }
 
 export const getBoardById = (boardId) => {
@@ -17,7 +16,7 @@ export const getBoardById = (boardId) => {
     }
     var boards = JSON.parse(localStorage.getItem("boards"));
     for(var i = 0; i < boards.length; i++){
-        if(boards[i].id === boardId){
+        if(boards[i].boardId === boardId){
             return boards[i];
         }
     }
@@ -52,7 +51,7 @@ export const deleteBoard = (boardId) => {
     }
     var boards = JSON.parse(localStorage.getItem("boards"));
     for(var i = 0; i < boards.length; i++){
-        if(boards[i].id === boardId){
+        if(boards[i].boardId === boardId){
             boards.splice(i, 1);
             localStorage.setItem("boards", JSON.stringify(boards));
             return;
